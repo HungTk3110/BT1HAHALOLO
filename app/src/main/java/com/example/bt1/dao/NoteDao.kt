@@ -16,8 +16,11 @@ interface NoteDao {
     @Delete
     suspend fun deleteNote(note: Note)
 
+//    @Query("select * from note_table")
+//    fun getAllNote(): LiveData<MutableList<Note>>
+
     @Query("select * from note_table")
-    fun getAllNote(): LiveData<MutableList<Note>>
+    fun getAllNote(): MutableList<Note>
 
     @Query("select * from note_table where title_col=:title")
     fun getNoteByTitle(title: String): LiveData<MutableList<Note>>

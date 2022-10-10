@@ -1,19 +1,19 @@
-package com.example.bt1.activity
+package com.example.bt1.update
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
-import com.example.bt1.R
 import com.example.bt1.databinding.ActivityUpdateNoteBinding
+import com.example.bt1.main.MainActivity
 import com.example.note_application.model.Note
-import com.example.note_application.viewmodel.NoteViewModel
 
 class UpdateNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUpdateNoteBinding
-    private lateinit var noteViewModel: NoteViewModel
+    private lateinit var viewModel: UpdateNoteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +21,10 @@ class UpdateNoteActivity : AppCompatActivity() {
         binding = ActivityUpdateNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(UpdateNoteViewModel::class.java)
 
 
+        val intent2 = Intent(this , MainActivity::class.java)
         val note = intent.getSerializableExtra("update") as Note
         binding.edtTitle.setText(note.title)
         binding.edtDes.setText(note.description)
@@ -36,8 +37,8 @@ class UpdateNoteActivity : AppCompatActivity() {
                 setPositiveButton("Ok", DialogInterface.OnClickListener { builder, which ->
                     note.title = binding.edtTitle.text.toString()
                     note.description = binding.edtDes.text.toString()
-                    noteViewModel.updateNote(note)
-                    finish()
+                    viewModel.updateNote(note)
+                    startActivity(intent2)
                 })
                 setNegativeButton("No", null)
                     .show()
@@ -51,8 +52,8 @@ class UpdateNoteActivity : AppCompatActivity() {
                 setTitle("Delete Note")
                 setMessage("do you want to delete?")
                 setPositiveButton("Ok", DialogInterface.OnClickListener { builder, which ->
-                    noteViewModel.deleteNote(note)
-                    finish()
+                    viewModel.deleteNote(note)
+                    startActivity(intent2)
                 })
                 setNegativeButton("No", null)
                     .show()
